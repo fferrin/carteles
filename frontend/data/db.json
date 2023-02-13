@@ -1,0 +1,251 @@
+{
+  "companies": [
+    {
+      "id": 1,
+      "name": "Company 1"
+    },
+    {
+      "id": 2,
+      "name": "Company 2"
+    },
+    {
+      "name": "PRUEBA #6.738",
+      "id": 3
+    },
+    {
+      "name": "PRUEBA #5.023",
+      "id": 4
+    },
+    {
+      "name": "Compañía #0.376",
+      "id": 5
+    },
+    {
+      "name": "Compañía #7.080",
+      "id": 6
+    },
+    {
+      "name": "Compañía #5.935",
+      "id": 7
+    },
+    {
+      "name": "Compañía #5.155",
+      "id": 8
+    },
+    {
+      "name": "Compañía #2.552",
+      "id": 9
+    },
+    {
+      "name": "Compañía #1.746",
+      "id": 10
+    },
+    {
+      "name": "Compañía #4.339",
+      "id": 11
+    },
+    {
+      "name": "Compañía #2.231",
+      "id": 12
+    },
+    {
+      "name": "Compañía #5.956",
+      "id": 13
+    },
+    {
+      "name": "Compañía #1.832",
+      "id": 14
+    },
+    {
+      "name": "Compañía #1.678",
+      "id": 15
+    },
+    {
+      "name": "Compañía #8.503",
+      "id": 16
+    },
+    {
+      "name": "Compañía #1.420",
+      "id": 17
+    },
+    {
+      "name": "Compañía #5.043",
+      "id": 18
+    },
+    {
+      "name": "Compañía #6.221",
+      "id": 19
+    },
+    {
+      "name": "Compañía #1.652",
+      "id": 20
+    }
+  ],
+  "usersMe": {
+    "last_login": null,
+    "username": "faca981",
+    "first_name": "Facundo",
+    "last_name": "Ferrín",
+    "date_joined": "2022-04-14T17:08:01.976728",
+    "date_created": "2022-04-14T17:08:01.976732",
+    "date_modified": "2022-04-14T17:08:01.976734",
+    "uuid": 1,
+    "email": "faca981@gmail.com",
+    "gender": null,
+    "birth_date": null,
+    "phone": null,
+    "avatar": "https://cdn.pixabay.com/photo/2018/03/31/06/31/dog-3277416_960_720.jpg",
+    "bio": "",
+    "email_confirmed": true,
+    "profile_facebook": "",
+    "profile_instagram": "",
+    "profile_twitter": "",
+    "allow_notifications": false
+  },
+  "boards": [
+    {
+      "id": 1,
+      "name": "Board 1",
+      "location": {
+        "lat": 27.672932021393862,
+        "lng": 85.31184012689732
+      }
+    },
+    {
+      "id": 2,
+      "name": "Board 2",
+      "location": {
+        "lat": 27.66293202139386,
+        "lng": 85.32184012689731
+      }
+    },
+    {
+      "name": "PRUEBA #1.720",
+      "location": {
+        "lat": 27.604457120836074,
+        "lng": 85.32961473971345
+      },
+      "id": 20
+    },
+    {
+      "name": "PRUEBA #2.263",
+      "location": {
+        "lat": 27.657386913994863,
+        "lng": 85.31426822615387
+      },
+      "id": 21
+    },
+    {
+      "name": "PRUEBA #5.355",
+      "location": {
+        "lat": 27.623644442177863,
+        "lng": 85.39283701592235
+      },
+      "id": 22
+    },
+    {
+      "name": "PRUEBA #4.900",
+      "location": {
+        "lat": 27.61781286882497,
+        "lng": 85.38983275541405
+      },
+      "id": 23
+    },
+    {
+      "name": "PRUEBA #0.138",
+      "location": {
+        "lat": 27.673825713076976,
+        "lng": 85.31742375585858
+      },
+      "id": 24
+    },
+    {
+      "name": "PRUEBA #7.428",
+      "location": {
+        "lat": 27.660105503135732,
+        "lng": 85.30890308847654
+      },
+      "id": 25
+    },
+    {
+      "name": "PRUEBA #2.730",
+      "location": {
+        "lat": 27.601369432390758,
+        "lng": 85.31551057555895
+      },
+      "id": 26
+    },
+    {
+      "name": "PRUEBA #1.192",
+      "location": {
+        "lat": 27.603799857969488,
+        "lng": 85.36652708935738
+      },
+      "id": 27
+    },
+    {
+      "name": "PRUEBA #9.479",
+      "location": {
+        "lat": 27.635480916602646,
+        "lng": 85.37160760309422
+      },
+      "id": 28
+    },
+    {
+      "name": "PRUEBA #5.603",
+      "location": {
+        "lat": 27.63650724167608,
+        "lng": 85.32051160216918
+      },
+      "id": 29
+    },
+    {
+      "name": "PRUEBA #3.957",
+      "location": {
+        "lat": 27.609304109500417,
+        "lng": 85.395283621617
+      },
+      "id": 30
+    },
+    {
+      "name": "PRUEBA #2.086",
+      "location": {
+        "lat": 27.60572148301313,
+        "lng": 85.3108693853078
+      },
+      "id": 31
+    },
+    {
+      "name": "PRUEBA #8.498",
+      "location": {
+        "lat": 27.679165028879744,
+        "lng": 85.3537970138067
+      },
+      "id": 32
+    },
+    {
+      "name": "PRUEBA #8.255",
+      "location": {
+        "lat": 27.678652579509915,
+        "lng": 85.39847224830196
+      },
+      "id": 33
+    },
+    {
+      "name": "PRUEBA #7.549",
+      "location": {
+        "lat": 27.60142098160845,
+        "lng": 85.32967115086912
+      },
+      "id": 34
+    },
+    {
+      "name": "PRUEBA #9.553",
+      "location": {
+        "lat": 27.6692602402631,
+        "lng": 85.35052472076313
+      },
+      "id": 35
+    }
+  ]
+}
