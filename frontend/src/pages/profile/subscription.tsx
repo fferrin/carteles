@@ -1,11 +1,10 @@
 'use client';
-
+import Layout from "@/components/Layout";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import Router from "next/router";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-import Layout from "@/components/Layout";
-import ContactForm from "@/components/FormContact";
 import routes from "@/routes";
+import UserDrawer from "@/components/UserDrawer";
 
 
 function useSendContactMessage() {
@@ -22,7 +21,7 @@ function useSendContactMessage() {
   return { sendContactMessage, error }
 }
 
-function Contact() {
+function ProfilePage() {
   const user = useUser()
   const { error, sendContactMessage } = useSendContactMessage()
 
@@ -41,16 +40,18 @@ function Contact() {
   //   long: -73.946713,
   // }).then(({ data }) => console.log(JSON.stringify(data)))
   return (
+    // <ProtectedRoute>
     <Layout>
-      <ContactForm
-        email={user?.email}
-        onSubmit={handleOnSubmit}
-      />
+      <UserDrawer/>
+      <section className={"h-full bg-amber-600"}>
+        asdasd
+      </section>
     </Layout>
+    // </ProtectedRoute>
   )
 }
 
-export default Contact
+export default ProfilePage
 
 /*
 create or replace function nearby_boards(lat float, lng float)

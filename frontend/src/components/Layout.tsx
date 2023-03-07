@@ -1,311 +1,225 @@
 import { useState } from "react";
 import Link from "next/link";
-import { Inter } from "@next/font/google";
 import { User } from "@/types";
-import styles from "@/styles/page.module.css";
 import routes from "@/routes";
-
-const inter = Inter( { subsets: [ 'latin' ] } )
-
-function Footer2() {
-  return <div className={ styles.grid }>
-    <a
-      href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-      className={ styles.card }
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <h2 className={ inter.className }>
-        Docs <span>-&gt;</span>
-      </h2>
-      <p className={ inter.className }>
-        Find in-depth information about Next.js features and API.
-      </p>
-    </a>
-
-    <a
-      href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-      className={ styles.card }
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <h2 className={ inter.className }>
-        Templates <span>-&gt;</span>
-      </h2>
-      <p className={ inter.className }>Explore the Next.js 13 playground.</p>
-    </a>
-
-    <a
-      href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-      className={ styles.card }
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <h2 className={ inter.className }>
-        Deploy <span>-&gt;</span>
-      </h2>
-      <p className={ inter.className }>
-        Instantly deploy your Next.js site to a shareable URL with Vercel.
-      </p>
-    </a>
-  </div>;
-}
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { constants } from "@/lib/components/constants";
 
 function Footer() {
-  return <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
-    <div className="mx-auto max-w-screen-xl text-center">
-      <a href="#" className="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
-        <svg className="mr-2 h-8" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M25.2696 13.126C25.1955 13.6364 24.8589 14.3299 24.4728 14.9328C23.9856 15.6936 23.2125 16.2264 22.3276 16.4114L18.43 17.2265C17.8035 17.3575 17.2355 17.6853 16.8089 18.1621L14.2533 21.0188C13.773 21.5556 13.4373 21.4276 13.4373 20.7075C13.4315 20.7342 12.1689 23.9903 15.5149 25.9202C16.8005 26.6618 18.6511 26.3953 19.9367 25.6538L26.7486 21.7247C29.2961 20.2553 31.0948 17.7695 31.6926 14.892C31.7163 14.7781 31.7345 14.6639 31.7542 14.5498L25.2696 13.126Z"
-            fill="url(#paint0_linear_11430_22515)"/>
-          <path
-            d="M23.5028 9.20133C24.7884 9.94288 25.3137 11.0469 25.3137 12.53C25.3137 12.7313 25.2979 12.9302 25.2694 13.1261L28.0141 14.3051L31.754 14.5499C32.2329 11.7784 31.2944 8.92561 29.612 6.65804C28.3459 4.9516 26.7167 3.47073 24.7581 2.34097C23.167 1.42325 21.5136 0.818599 19.8525 0.486816L17.9861 2.90382L17.3965 5.67918L23.5028 9.20133Z"
-            fill="url(#paint1_linear_11430_22515)"/>
-          <path
-            d="M1.5336 11.2352C1.5329 11.2373 1.53483 11.238 1.53556 11.2358C1.67958 10.8038 1.86018 10.3219 2.08564 9.80704C3.26334 7.11765 5.53286 5.32397 8.32492 4.40943C11.117 3.49491 14.1655 3.81547 16.7101 5.28323L17.3965 5.67913L19.8525 0.486761C12.041 -1.07341 4.05728 3.51588 1.54353 11.2051C1.54233 11.2087 1.53796 11.2216 1.5336 11.2352Z"
-            fill="url(#paint2_linear_11430_22515)"/>
-          <path
-            d="M19.6699 25.6538C18.3843 26.3953 16.8003 26.3953 15.5147 25.6538C15.3402 25.5531 15.1757 25.4399 15.0201 25.3174L12.7591 26.8719L10.8103 30.0209C12.9733 31.821 15.7821 32.3997 18.589 32.0779C20.7013 31.8357 22.7995 31.1665 24.7582 30.0368C26.3492 29.1191 27.7 27.9909 28.8182 26.7195L27.6563 23.8962L25.7762 22.1316L19.6699 25.6538Z"
-            fill="url(#paint3_linear_11430_22515)"/>
-          <path
-            d="M15.0201 25.3175C14.0296 24.5373 13.4371 23.3406 13.4371 22.0588V21.931V11.2558C13.4371 10.6521 13.615 10.5494 14.1384 10.8513C13.3323 10.3864 11.4703 8.79036 9.17118 10.1165C7.88557 10.858 6.8269 12.4949 6.8269 13.978V21.8362C6.8269 24.775 8.34906 27.8406 10.5445 29.7966C10.6313 29.874 10.7212 29.9469 10.8103 30.0211L15.0201 25.3175Z"
-            fill="url(#paint4_linear_11430_22515)"/>
-          <path
-            d="M28.6604 5.49565C28.6589 5.49395 28.6573 5.49532 28.6589 5.49703C28.9613 5.83763 29.2888 6.23485 29.6223 6.68734C31.3648 9.05099 32.0158 12.0447 31.4126 14.9176C30.8093 17.7906 29.0071 20.2679 26.4625 21.7357L25.7761 22.1316L28.8181 26.7195C34.0764 20.741 34.09 11.5388 28.6815 5.51929C28.6789 5.51641 28.67 5.50622 28.6604 5.49565Z"
-            fill="url(#paint5_linear_11430_22515)"/>
-          <path
-            d="M7.09355 13.978C7.09354 12.4949 7.88551 11.1244 9.17113 10.3829C9.34564 10.2822 9.52601 10.1965 9.71002 10.1231L9.49304 7.38962L7.96861 4.26221C5.32671 5.23364 3.1897 7.24125 2.06528 9.83067C1.2191 11.7793 0.75001 13.9294 0.75 16.1888C0.75 18.0243 1.05255 19.7571 1.59553 21.3603L4.62391 21.7666L7.09355 21.0223V13.978Z"
-            fill="url(#paint6_linear_11430_22515)"/>
-          <path
-            d="M9.71016 10.1231C10.8817 9.65623 12.2153 9.74199 13.3264 10.3829L13.4372 10.4468L22.3326 15.5777C22.9566 15.9376 22.8999 16.2918 22.1946 16.4392L22.7078 16.332C23.383 16.1908 23.9999 15.8457 24.4717 15.3428C25.2828 14.4782 25.5806 13.4351 25.5806 12.5299C25.5806 11.0468 24.7886 9.67634 23.503 8.93479L16.6911 5.00568C14.1436 3.53627 11.0895 3.22294 8.29622 4.14442C8.18572 4.18087 8.07756 4.2222 7.96875 4.26221L9.71016 10.1231Z"
-            fill="url(#paint7_linear_11430_22515)"/>
-          <path
-            d="M20.0721 31.8357C20.0744 31.8352 20.0739 31.8332 20.0717 31.8337C19.6252 31.925 19.1172 32.0097 18.5581 32.0721C15.638 32.3978 12.7174 31.4643 10.5286 29.5059C8.33986 27.5474 7.09347 24.7495 7.09348 21.814L7.09347 21.0222L1.59546 21.3602C4.1488 28.8989 12.1189 33.5118 20.0411 31.8421C20.0449 31.8413 20.0582 31.8387 20.0721 31.8357Z"
-            fill="url(#paint8_linear_11430_22515)"/>
-          <defs>
-            <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532" x2="23.9577" y2="12.9901"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1724C9"/>
-              <stop offset="1" stopColor="#1C64F2"/>
-            </linearGradient>
-            <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837" x2="19.7797" y2="2.33321"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1C64F2"/>
-              <stop offset="1" stopColor="#0092FF"/>
-            </linearGradient>
-            <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045" x2="4.42432" y2="5.99375"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0092FF"/>
-              <stop offset="1" stopColor="#45B2FF"/>
-            </linearGradient>
-            <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846" x2="27.2866" y2="25.8192"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1C64F2"/>
-              <stop offset="1" stopColor="#0092FF"/>
-            </linearGradient>
-            <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661" x2="15.9825" y2="24.1181"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1724C9"/>
-              <stop offset="1" stopColor="#1C64F2"/>
-            </linearGradient>
-            <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189" x2="31.7569" y2="10.6178"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0092FF"/>
-              <stop offset="1" stopColor="#45B2FF"/>
-            </linearGradient>
-            <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427" x2="3.14054" y2="20.4898"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1C64F2"/>
-              <stop offset="1" stopColor="#0092FF"/>
-            </linearGradient>
-            <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271" x2="10.4278" y2="11.488"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1724C9"/>
-              <stop offset="1" stopColor="#1C64F2"/>
-            </linearGradient>
-            <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399" x2="14.0824" y2="31.9579"
-                            gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0092FF"/>
-              <stop offset="1" stopColor="#45B2FF"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        Flowbite
-      </a>
-      <p className="my-6 text-gray-500 dark:text-gray-400">Open-source library of over 400+ web components and
-        interactive elements built for better web.</p>
-      <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6 ">About</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6">Premium</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6 ">Campaigns</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6">Blog</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6">Affiliate Program</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6">FAQs</a>
-        </li>
-        <li>
-          <a href="#" className="mr-4 hover:underline md:mr-6">Contact</a>
-        </li>
-      </ul>
-      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2021-2022
-        <a href="#"
-           className="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
-    </div>
-  </footer>
-}
-
-function HeaderOld( props: { loggedUser: User | null } ) {
-  const routes = [
-    { text: "Carteles Pepe", href: "/" },
-    { text: "Carteles", href: "/boards" },
-    { text: "Usuarios", href: "/users" },
-    { text: "Compañías", href: "/companies" },
-    { text: "Contacto", href: "/contact" },
-  ]
-  return <div className={ styles.description }>
-    { routes.map( r => <p key={ r.href }><Link href={ r.href }>{ r.text }</Link></p> ) }
-    { props.loggedUser ?
-      <p>
-        Bienvenido { props.loggedUser.username }
-      </p> : <p>Logueate</p>
-    }
-  </div>;
+  return (
+    <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+      <div className="mx-auto max-w-screen-xl text-center">
+        <Link href="#"
+              className="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
+          <img src="/logo.svg" className="mr-3 h-6 sm:h-9" alt={`${constants.companyName} Logo`}/>
+          {constants.companyName}
+        </Link>
+        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          © 2023
+        </span>
+      </div>
+    </footer>
+  )
 }
 
 function Header() {
+  const client = useSupabaseClient()
+  const user = useUser()
   const navRoutes = [
-    { label: "Home", href: routes.home },
+    { label: "Inicio", href: routes.home },
     { label: "Carteles", href: routes.search },
     { label: "Contacto", href: routes.contact },
   ]
 
-  return <header>
-    <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-        <a href="https://flowbite.com" className="flex items-center">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo"/>
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
-        <div className="flex items-center lg:order-2">
-          <a href="#"
-             className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log
-            in</a>
-          <a href="#"
-             className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-            Get started</a>
+  async function signOut() {
+    const { error } = await client.auth.signOut()
+    if (error) console.log(error)
+    else console.log("DESLOGUEADO")
+  }
 
-          <div className="flex items-center ml-3">
-            <div>
-              <button type="button"
+  function handleLogOut() {
+    console.log("LOGGING OUT")
+    signOut()
+  }
+
+  return (
+    <header>
+      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+          <Link href={routes.home} className="flex items-center">
+            <img src="/logo.svg" className="mr-3 h-6 sm:h-9" alt={`${constants.companyName} Logo`}/>
+            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+          {constants.companyName}
+        </span>
+          </Link>
+          <div className="flex items-center lg:order-2">
+            <Link
+              href={routes.boards}
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              <svg
+                viewBox="0 0 20 20"
+                enableBackground="new 0 0 20 20"
+                className="w-4 h-4 inline-block"
+              >
+                <path
+                  fill="#FFFFFF"
+                  d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
+                                    C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
+                                    C15.952,9,16,9.447,16,10z"
+                />
+              </svg>
+              &nbsp;Añadir cartel
+            </Link>
+            {user && (
+              <>
+                <div className="flex items-center ml-3">
+                  <div>
+                    <button
+                      type="button"
                       className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                      aria-expanded="false" data-dropdown-toggle="dropdown-user2">
-                <span className="sr-only">Open user menu</span>
-                <img className="w-8 h-8 rounded-full"
-                     src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"/>
-              </button>
-            </div>
-            <div
-              className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-              id="dropdown-user2">
-              <div className="px-4 py-3" role="none">
-                <p className="text-sm text-gray-900 dark:text-white" role="none">
-                  Neil Sims
-                </p>
-                <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  neil.sims@flowbite.com
-                </p>
-              </div>
-              <ul className="py-1" role="none">
-                <li>
-                  <a href="#"
-                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                     role="menuitem">Dashboard</a>
-                </li>
-                <li>
-                  <a href="#"
-                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                     role="menuitem">Settings</a>
-                </li>
-                <li>
-                  <a href="#"
-                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                     role="menuitem">Earnings</a>
-                </li>
-                <li>
-                  <a href="#"
-                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                     role="menuitem">Sign out</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <button data-collapse-toggle="mobile-menu-2" type="button"
+                      aria-expanded="false"
+                      data-dropdown-toggle="dropdown-user2"
+                    >
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="user photo"
+                      />
+                    </button>
+                  </div>
+
+                  <div
+                    className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                    id="dropdown-user2"
+                  >
+                    <div className="px-4 py-3" role="none">
+                      {/*<p*/}
+                      {/*  className="text-sm text-gray-900 dark:text-white"*/}
+                      {/*  role="none"*/}
+                      {/*>*/}
+                      {/*  Neil Sims*/}
+                      {/*</p>*/}
+                      <p
+                        className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                        role="none"
+                      >
+                        {user.email}
+                      </p>
+                    </div>
+                    <ul className="py-1" role="none">
+                      <li>
+                        <Link
+                          href={routes.profile}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                          role="menuitem"
+                        >
+                          Mis Datos
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href={routes.userBoards}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                          role="menuitem"
+                        >
+                          Mis Carteles
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href={routes.userSubscription}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                          role="menuitem"
+                        >
+                          Mi Suscripción
+                        </Link>
+                      </li>
+                    </ul>
+                    <ul className="py-1" role="none">
+                      <li>
+                        <Link
+                          href="#"
+                          onClick={handleLogOut}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                          role="menuitem"
+                        >
+                          Cerrar Sesión
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <button
+                  data-collapse-toggle="mobile-menu-2"
+                  type="button"
                   className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  aria-controls="mobile-menu-2" aria-expanded="false">
-            <span className="sr-only">Open main menu</span>
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clipRule="evenodd"/>
-            </svg>
-            <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"/>
-            </svg>
-          </button>
+                  aria-controls="mobile-menu-2"
+                  aria-expanded="false"
+                >
+                  <span className="sr-only">Open main menu</span>
+                  <svg
+                    className="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <svg
+                    className="hidden w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
+          <div
+            className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+            id="mobile-menu-2"
+          >
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+              {navRoutes.map((r) => (
+                <li key={r.label}>
+                  <Link
+                    href={r.href}
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    {r.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-          <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-            { navRoutes.map( r =>
-              <li key={ r.label }>
-                <a href={ r.href }
-                  // className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
-                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
-                  { r.label }
-                </a>
-              </li>
-            ) }
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
+  )
 }
 
-export function Layout2( props: { children: JSX.Element } ) {
-  const [ loggedUser, setLoggedUser ] = useState<User | null>( null )
-
-  return <main className={ styles.main }>
-    <Header loggedUser={ loggedUser }/>
-    <div className={ styles.center }>
-      { props.children }
-    </div>
-    <Footer/>
-  </main>
-}
-
-
-function Layout( props: { children: JSX.Element } ) {
-  const [ loggedUser, setLoggedUser ] = useState<User | null>( null )
+function Layout(props: { children: JSX.Element }) {
+  const [loggedUser, setLoggedUser] = useState<User | null>(null)
 
   return <main>
     <Header/>
-    {/*<Header loggedUser={ loggedUser }/>*/ }
-    {/*<div className={ styles.center }>*/ }
-    { props.children }
-    {/*</div>*/ }
+    {/*<Header loggedUser={ loggedUser }/>*/}
+    {/*<div className={ styles.center }>*/}
+    {props.children}
+    {/*</div>*/}
     <Footer/>
   </main>
 }
